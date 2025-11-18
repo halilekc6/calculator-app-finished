@@ -36,4 +36,5 @@ jobs:
       - name: Bundle app into zip
         run: zip -r app.zip . -x ".git/*" ".github/*"
 
-      
+      - name: Run unit tests
+        run: npm test
