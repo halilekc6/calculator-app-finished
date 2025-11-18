@@ -1,0 +1,39 @@
+name: Build Example
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js / NPM
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run unit tests
+      - name: Run unit tests
+        run: npm test
+
+      # Step 5: Upload test report to GitHub UI
+      - name: Test Reporter
+        uses: dorny/test-reporter@v2.1.1
+        with:
+          name: Unit Tests
+          path: test-results.xml
+          reporter: jest-junit
