@@ -15,7 +15,7 @@
   "dependencies": {
     "express": "^4.17.1"
   },
-   "devDependencies": {
+  "devDependencies": {
     "@eslint/js": "^9.37.0",
     "eslint": "^9.37.0",
     "globals": "^16.4.0",
@@ -28,9 +28,9 @@
     "testEnvironment": "node",
     "testResultsProcessor": "jest-junit",
     "reporters": [
-    "default",
-    ["jest-junit", { "output": "test-results.xml" }]
-  ]
+      "default",
+      ["jest-junit", { "output": "test-results.xml" }]
+    ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/public"
