@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js / NPM
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -26,14 +26,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run unit tests
+      # Step 4: Run tests and generate JUnit XML
       - name: Run unit tests
         run: npm test
 
-      # Step 5: Upload test report to GitHub UI
+      # Step 5: Test Reporter
       - name: Test Reporter
         uses: dorny/test-reporter@v2.1.1
         with:
           name: Unit Tests
           path: test-results.xml
           reporter: jest-junit
+          fail-on-error: true
+          fail-on-empty: true
+          use-actions-summary: true
