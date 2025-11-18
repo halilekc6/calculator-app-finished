@@ -1,0 +1,43 @@
+name: Build Example
+
+# Triggers
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js / NPM
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'   # You can set your preferred Node.js version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Bundle the code into a zip (all app files + node_modules)
+      - name: Bundle code into zip
+        run: |
+          zip -r build.zip . -x ".git/*"
+
+      # Step 5: Run unit tests and create report
+      - name: Run unit tests and generate report
+        run: npm test -- --reporter mocha-junit-reporter --reporter-options mochaFile=test-results.xml
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: test-results.xml
