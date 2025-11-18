@@ -27,6 +27,10 @@
   "jest": {
     "testEnvironment": "node",
     "testResultsProcessor": "jest-junit",
+    "reporters": [
+    "default",
+    ["jest-junit", { "output": "test-results.xml" }]
+  ]
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/public"
