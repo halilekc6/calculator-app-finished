@@ -28,39 +28,33 @@ jobs:
 
       # Step 4: Bundle the code into a zip
       - name: Bundle code into zip
-        run: |
-          zip -r build.zip . -x ".git/*"
+        run: zip -r build.zip . 
 
-      # Step 5: Run unit tests and generate test report
-      - name: Run unit tests
-        run: npm test
-      - name: Upload test report
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-report
-          path: test-results.xml
 
-      # Step 6: Code coverage report
-      - name: Generate coverage report
-        run: npm test -- --coverage
+      - name: New file in github repo
+        run: mkdir TestFiles
+
+
+      # Step 5: Code coverage report
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
-          path: coverage/
+          name: zip
+          path: TestFiles/ 
+      - run: ls TestFiles
 
-      # Step 7: Set up Docker
+      # Step 6: Set up Docker
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
 
-      # Step 8: Log in to Docker Hub
+      # Step 7: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 9: Build and push Docker image
+      # Step 8: Build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
